@@ -1,0 +1,27 @@
+dist: notebook-controller
+
+env:
+  global:
+    - REGISTRY_NAME=1049651653
+    - REGISTRY_PWD=lmg7831336
+    - REGISTRY=docker.io/1049651653
+    - IMAGE_NAME=notebook-controller:v1.0.0-gcd65ce25
+    - CODE_TAG=v1.0
+    
+arch:
+#  - amd64
+  - arm64
+
+services:
+  - docker
+
+before_install:
+  - git clone -b ${CODE_TAG} --depth 1 https://github.com/kubeflow/kubeflow.git
+
+script:
+  - cd kubeflow/components/notebook-controller
+  - docker build -t ${REGISTRY}/${IMAGE_NAME} -f Dockerfile .
+  
+after_success:
+- docker login -u ${REGISTRY_NAME} -p ${REGISTRY_PWD} ${REGISTRY}
+- docker push ${REGISTRY}/${IMAGE_NAME}
