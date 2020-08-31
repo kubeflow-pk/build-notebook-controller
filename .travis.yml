@@ -19,8 +19,8 @@ before_install:
   - git clone -b ${CODE_TAG} --depth 1 https://github.com/kubeflow/kubeflow.git
 
 script:
-  - cd kubeflow/components/notebook-controller
-  - docker build -t ${REGISTRY}/${IMAGE_NAME} -f Dockerfile .
+  - cd kubeflow/components
+  - docker build -t ${REGISTRY}/${IMAGE_NAME} -f notebook-controller/Dockerfile .
   
 after_success:
 - docker login -u ${REGISTRY_NAME} -p ${REGISTRY_PWD} ${REGISTRY}
