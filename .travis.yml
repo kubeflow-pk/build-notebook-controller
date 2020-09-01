@@ -2,10 +2,7 @@ dist: notebook-controller
 
 env:
   global:
-    - REGISTRY_NAME=1049651653
-    - REGISTRY_PWD=lmg7831336
-    - REGISTRY=docker.io/1049651653
-    - IMAGE_NAME=notebook-controller:v1.0.0-gcd65ce25
+    - IMAGE_NAME=pkskubeflow/notebook-controller:v1.0.0-gcd65ce25
     - CODE_TAG=v1.0
     
 arch:
@@ -20,8 +17,6 @@ before_install:
 
 script:
   - cd kubeflow/components
-  - docker build -t ${REGISTRY}/${IMAGE_NAME} -f notebook-controller/Dockerfile .
-  
-after_success:
-- docker login -u ${REGISTRY_NAME} -p ${REGISTRY_PWD} ${REGISTRY}
-- docker push ${REGISTRY}/${IMAGE_NAME}
+  - docker build -t ${IMAGE_NAME} -f notebook-controller/Dockerfile .
+  - docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}
+  - docker push ${IMAGE_NAME}
